@@ -7,6 +7,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="theme-color" content="#1d2540">
 <title>Cajitas</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="icon" href="/icon.svg">
 <style>
 :root{--bg1:#22305a;--bg2:#141b33;--panel:rgba(255,255,255,.1);--panelS:#26335e;--ink:#fff;--soft:rgba(255,255,255,.7);--accent:#ffc94d;--accent2:#4d7cfe;--ok:#3cc47c}
 body.princess{--bg1:#ffd3e8;--bg2:#e7c6ff;--panel:rgba(255,255,255,.55);--panelS:#fff0f7;--ink:#6b2257;--soft:rgba(107,34,87,.7);--accent:#ff5c9a;--accent2:#b06ae0;--ok:#ff5c9a}
@@ -803,6 +805,7 @@ function setAmbient(name, on){
 if(P.cur > maxPlayable()) P.cur = maxPlayable();
 applyPrefs(); showScreen('#start');
 requestAnimationFrame(frame);
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
 </script>
 </body>
 </html>

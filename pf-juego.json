@@ -1,0 +1,13 @@
+{
+  "id": "cajitas",
+  "name": "Cajitas",
+  "emoji": "📦",
+  "color": "#e9a23b",
+  "group": "Ingenio",
+  "order": 30,
+  "desc": "Empujá las cajas hasta su lugar. 42 niveles, deshacer y ayuda.",
+  "tags": ["🧩 42 niveles", "👑 Modo princesa", "🌙 Modo noche"],
+  "url": "https://cajitas-ten.vercel.app",
+  "tv": "/?hub={code}",
+  "solo": "/"
+}

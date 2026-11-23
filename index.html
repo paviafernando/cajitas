@@ -31,6 +31,8 @@ body:not(.land).padon #toast{bottom:215px}
 #bar .info b,#bar .info span{white-space:nowrap}
 @media (max-width:520px){#lvTot{display:none}}
 .ib.empty{opacity:.45}
+.fsCorner{position:absolute;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right))}
+.fsb.on{background:var(--accent);color:#3a2300}
 .ib.confirm{background:#ff6b6b;color:#fff}
 .ib.pulse{animation:pulse 1s ease-in-out infinite}
 @keyframes pulse{50%{transform:scale(1.15);box-shadow:0 0 0 6px rgba(255,201,77,.35)}}
@@ -105,6 +107,7 @@ body.night{filter:brightness(.82)}
   <div class="info"><b>Nivel <span id="lvName" style="font-size:inherit;color:inherit">1</span><span id="lvTot" style="font-size:inherit;color:inherit"> de 42</span></b><span id="lvStats">👣 0 · 📦 0</span></div>
   <button class="ib" id="bUndo" aria-label="Deshacer">↶<span class="badge" id="undoN">3</span></button>
   <button class="ib" id="bHelp" aria-label="Ayuda">💡</button>
+  <button class="ib fsb" aria-label="Pantalla completa">⛶</button>
 </div>
 
 <div id="dpad" class="hidden">
@@ -117,6 +120,7 @@ body.night{filter:brightness(.82)}
 
 <!-- inicio -->
 <div id="start" class="screen">
+  <button class="ib fsb fsCorner" aria-label="Pantalla completa">⛶</button>
   <div class="logo" id="logo">📦</div>
   <h1 id="title">Cajitas</h1>
   <p class="sub" id="subtitle">Empujá cada caja hasta su lugar</p>
@@ -614,6 +618,11 @@ if(HUB) document.querySelectorAll('.hubBtn').forEach(b => b.classList.remove('hi
 /* ================= PANTALLA COMPLETA Y PANTALLA ENCENDIDA ================= */
 const fsOk = !!(document.documentElement.requestFullscreen || document.documentElement.webkitRequestFullscreen);
 if(!fsOk) $('#bFs').classList.add('hidden');
+// Botón ⛶ siempre a mano (inicio y barra del juego), como en el piano
+const fsStandalone = matchMedia('(display-mode: fullscreen)').matches || matchMedia('(display-mode: standalone)').matches || navigator.standalone;
+function syncFs(){ const on = !!(document.fullscreenElement || document.webkitFullscreenElement); document.querySelectorAll('.fsb').forEach(b => { b.textContent = on ? '🗗' : '⛶'; b.classList.toggle('on', on); }); }
+document.querySelectorAll('.fsb').forEach(b => { if(!fsOk || fsStandalone) b.classList.add('hidden'); b.addEventListener('click', e => { e.stopPropagation(); toggleFull(); }); });
+document.addEventListener('fullscreenchange', syncFs); document.addEventListener('webkitfullscreenchange', syncFs);
 function goFull(){ const d = document.documentElement; if(document.fullscreenElement || document.webkitFullscreenElement) return;
   try{ const r = (d.requestFullscreen || d.webkitRequestFullscreen).call(d); r && r.catch && r.catch(() => {}); }catch(e){} }
 function toggleFull(){ if(document.fullscreenElement || document.webkitFullscreenElement){ (document.exitFullscreen || document.webkitExitFullscreen).call(document); } else goFull(); }
